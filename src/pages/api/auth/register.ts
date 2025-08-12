@@ -55,7 +55,7 @@ async function userRegister(req: NextApiRequest, res: NextApiResponse) {
         phone: userData.phone,
         password: passwordHash,
         passwordResetRequest: "No",
-        // userType: "BUYER", // assign as default value in prisma model
+        userType: userData.userType, // ADMIN, SELLER, BUYER only
         updateInfoAccess: "Yes",
         // userId: generateUserId(user?.userId || ""),  // todo: not understand for purpose
       },
