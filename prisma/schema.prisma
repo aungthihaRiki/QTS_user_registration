@@ -27,7 +27,7 @@ model User {
   password             String
   email                String
   phone                String           @unique
-  userType             UserType           @default(BUYER)
+  userType             UserType           
   passwordResetRequest String?
   updateInfoAccess     String?
   userId               String?

@@ -1,3 +1,4 @@
+import { userAgent } from "next/server";
 import { OpenAPIV3 } from "openapi-types";
 
 export const swaggerComponents: OpenAPIV3.ComponentsObject = {
@@ -16,9 +17,13 @@ export const swaggerComponents: OpenAPIV3.ComponentsObject = {
         lastName: { type: "string" },
         email: { type: "string" },
         phone: { type: "string" },
+        userType: { type: "string",
+          enum: ['ADMIN', 'SELLER', 'BUYER'], // need to change if prisma client changes
+          example: "BUYER"
+        },
         password: { type: "string" },
       },
-      required: ["email", "phone", "password"],
+      required: ["email", "phone", "userType", "password"],
     },
     LoginUserInput: {
       type: "object",
