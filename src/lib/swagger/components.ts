@@ -28,5 +28,29 @@ export const swaggerComponents: OpenAPIV3.ComponentsObject = {
       },
       required: ["phone", "password"],
     },
+    PasswordResetInput: {
+      type: "object",
+      properties: {
+        phone: { type: "string" },
+      },
+      required: ["phone"],
+    },
+    PasswordResetRequestInput: {
+      type: "object",
+      properties: {
+        phone: { type: "string" },
+        passwordResetRequestStatus: { type: "string" },
+      },
+      required: ["phone", "passwordResetRequestStatus"],
+    },
+    newPasswordResetInput: {
+      type: "object",
+      properties: {
+        phone: { type: "string" },
+        newPassword: { type: "string" },
+        token: { type: "string" },
+      },
+      required: ["phone", "newPassword", "token"],
+    },
   },
 };

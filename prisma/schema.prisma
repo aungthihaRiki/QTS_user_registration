@@ -33,3 +33,10 @@ model User {
   userId               String?
   createdAt            DateTime         @default(now())
 }
+
+model PasswordReset {
+  Id              String  @id @default(cuid())
+  phone           String
+  token           String
+  tokenExpireDate String
+}
