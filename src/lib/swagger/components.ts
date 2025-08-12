@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3 } from "openapi-types";
 
 export const swaggerComponents: OpenAPIV3.ComponentsObject = {
   securitySchemes: {
@@ -19,6 +19,14 @@ export const swaggerComponents: OpenAPIV3.ComponentsObject = {
         password: { type: "string" },
       },
       required: ["email", "phone", "password"],
+    },
+    LoginUserInput: {
+      type: "object",
+      properties: {
+        phone: { type: "string" },
+        password: { type: "string" },
+      },
+      required: ["phone", "password"],
     },
   },
 };
