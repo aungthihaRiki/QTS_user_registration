@@ -20,7 +20,7 @@ vi.mock("@/pages/api/auth/utils/validateRequest", () => ({
 import { prisma } from "@/lib/prisma";
 import { validateRequest } from "@/pages/api/auth/utils/validateRequest";
 
-describe("PATCH /api/auth/requestPasswordResetStatus", () => {
+describe("PATCH /api/auth/requestPasswordReset", () => {
   const mockUser = {
     phone: "0999999999",
     passwordResetRequestStatus: "Yes",
