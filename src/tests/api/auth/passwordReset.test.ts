@@ -92,7 +92,7 @@ describe("POST /api/auth/resetPassword", () => {
 
     (hash as any).mockResolvedValue("hashedPassword");
 
-    // (prisma.user.update as any).mockResolvedValue({ id: 1});
+    (prisma.user.update as any).mockResolvedValue({ id: 1});
     (prisma.passwordReset.deleteMany as any).mockResolvedValue({ count: 1 });
 
     const req = { method: "POST", body: mockBody } as NextApiRequest;
