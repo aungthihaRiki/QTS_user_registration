@@ -1,4 +1,3 @@
-import z from "zod";
 import * as argon2 from 'argon2';
 import { NextApiRequest, NextApiResponse } from "next";
 // import { initMiddleware } from "@/lib/init-middleware";
