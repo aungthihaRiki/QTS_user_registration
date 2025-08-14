@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 // import { cors } from "@/lib/cors";
 import { validateRequest } from "./utils/validateRequest";
 import z from "zod";
+import { Prisma } from "@prisma/client";
 
 // const runCors = initMiddleware(cors);
 
@@ -22,7 +23,6 @@ export default async function handler(
   }
 }
 
-// todo: action for admin role only
 async function requestPasswordResetStatus(req: NextApiRequest, res: NextApiResponse) {
   try {
     const validation = validateRequest(
@@ -43,17 +43,19 @@ async function requestPasswordResetStatus(req: NextApiRequest, res: NextApiRespo
     const { phone , passwordResetRequestStatus } = req.body;
     
 
-    const user = await prisma.user.update({
+    // user.update may throw error if user not found
+    const user = await prisma.user.updateMany({
         where: {
             phone
         },
         data: {
             passwordResetRequest: passwordResetRequestStatus,
         }
-    })
+    });
+    if (user.count === 0) return res.status(404).json({ message: "User not found." });
 
     return res.status(200).json({ message: "Password Reset Request updated Successfully.", user: user });
-  } catch {
+  } catch  {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
