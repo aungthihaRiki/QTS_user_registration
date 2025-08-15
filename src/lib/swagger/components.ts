@@ -17,6 +17,7 @@ export const swaggerComponents: OpenAPIV3.ComponentsObject = {
         email: { type: "string" },
         phone: { type: "string" },
         password: { type: "string" },
+        userType : { type : "string" },
       },
       required: ["email", "phone", "password"],
     },
@@ -27,6 +28,13 @@ export const swaggerComponents: OpenAPIV3.ComponentsObject = {
         password: { type: "string" },
       },
       required: ["phone", "password"],
+    },
+    PasswordResetInput: {
+      type: "object",
+      properties: {
+        phone: { type: "string" },
+      },
+      required: ["phone"],
     },
   },
 };

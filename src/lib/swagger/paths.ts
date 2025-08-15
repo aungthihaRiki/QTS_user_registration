@@ -42,5 +42,27 @@ export const swaggerPaths: OpenAPIV3.PathsObject = {
       },
     },
   },
+  "/api/auth/passwordRequest": {
+    post: {
+      summary: "Password Reset Request",
+      tags: ["Password Reset"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/PasswordResetInput" },
+          },
+        },
+      },
+      responses: {
+        200: { description: "Password reset email has been sent." },
+        404: { description: "User not found." },
+        405: { description: "Methods not allowed" },
+        422: { description: "Validation Errors" },
+        429: { description: "We already sent you a password reset link.PLease try again in 1 hour." },
+        500: { description: "Internal Server error" },        
+      },
+    },
+  },
 
 };

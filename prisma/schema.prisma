@@ -12,6 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum UserType {
@@ -27,9 +28,13 @@ model User {
   password             String
   email                String
   phone                String           @unique
-  userType             UserType           @default(BUYER)
-  passwordResetRequest String?
-  updateInfoAccess     String?
-  userId               String?
+  userType             UserType       
   createdAt            DateTime         @default(now())
+}
+
+model PasswordReset {
+  Id              String  @id @default(cuid())
+  phone           String
+  token           String
+  tokenExpireDate String?
 }
