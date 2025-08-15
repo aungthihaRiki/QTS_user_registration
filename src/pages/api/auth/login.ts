@@ -1,4 +1,3 @@
-import z from "zod";
 import * as argon2 from 'argon2';
 import { NextApiRequest, NextApiResponse } from "next";
 // import { initMiddleware } from "@/lib/init-middleware";
@@ -60,11 +59,6 @@ export const userLogin = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({
       message: "Login Successfully",
       token,
-      user: {
-        id: existingUserByPhone.id,
-        phone: existingUserByPhone.phone,
-        role: existingUserByPhone.userType,
-      },
     });
   } catch (err: any) {
     return res.status(500).json({ error: err.message });

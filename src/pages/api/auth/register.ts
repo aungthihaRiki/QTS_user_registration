@@ -42,6 +42,7 @@ async function userRegister(req: NextApiRequest, res: NextApiResponse) {
 
     const existingUserByPhone = await getUserByPhone(userData.phone);
     const existingUserByEmail = await getUserByEmail(userData.phone);
+    
     if (existingUserByEmail || existingUserByPhone)
       return res.status(409).json({ message: "User already exists." });
 
@@ -50,12 +51,12 @@ async function userRegister(req: NextApiRequest, res: NextApiResponse) {
     const newUser = await prisma.user.create({
       data: {
         firstName: userData.firstName,
-        lastName: userData.firstName,
+        lastName: userData.lastName,
         email: userData.email,
         phone: userData.phone,
         password: passwordHash,
         passwordResetRequest: "No",
-        // userType: "BUYER", // assign as default value in prisma model
+        userType: userData.userType, // ADMIN, SELLER, BUYER only
         updateInfoAccess: "Yes",
         // userId: generateUserId(user?.userId || ""),  // todo: not understand for purpose
       },
