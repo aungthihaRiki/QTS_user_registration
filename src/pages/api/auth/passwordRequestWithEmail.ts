@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 import { resetPasswordTemplate } from "@/modules/password-reset/EmailTemplate";
+import { EmailTransporter } from "@/lib/Email/EmailConfig";
 
 const phoneSchema = z.object({
     phone: z
@@ -45,6 +46,7 @@ export const passwordRequest = async (req: NextApiRequest, res: NextApiResponse)
 
         const data = parsedData.data;
 
+        //search for existing user
         const existingUserByPhone = await prisma.user.findUnique({
             where: {
                 phone: data.phone
@@ -54,6 +56,7 @@ export const passwordRequest = async (req: NextApiRequest, res: NextApiResponse)
             return res.status(404).json({ message: "User not found." });
 
 
+        //check token is still valid from last request
         const existingReset = await prisma.passwordReset.findFirst({
             where: { phone: data.phone },
             orderBy: { tokenExpireDate: 'desc' }
@@ -71,6 +74,7 @@ export const passwordRequest = async (req: NextApiRequest, res: NextApiResponse)
             });
         }    
 
+        //create new token
         const token = uuid();
         const tokenExpireDate = new Date(Date.now() + 60 * 60 * 1000);
         await prisma.passwordReset.create({
@@ -81,18 +85,10 @@ export const passwordRequest = async (req: NextApiRequest, res: NextApiResponse)
             }
         });
 
-        const resetUrl = `http://localhost:3000/resetPassword?token=${token}`;
+        const resetUrl = `http://localhost:3000/resetPasswordWithEmail?token=${token}`;
 
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT),
-            secure: true,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
-
+        
+        //send email wiith reset link
         const mailOptions = {
             from: "QTS Support <qts@mail.com>",
             to: existingUserByPhone.email,
@@ -101,7 +97,7 @@ export const passwordRequest = async (req: NextApiRequest, res: NextApiResponse)
             html: resetPasswordTemplate({ firstName: existingUserByPhone.firstName, resetUrl }),
         };
 
-        await transporter.sendMail(mailOptions);
+        await EmailTransporter.sendMail(mailOptions);
 
 
         return res.status(200).json({ message: "Password reset email has been sent." });

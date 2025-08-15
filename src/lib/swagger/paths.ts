@@ -42,9 +42,9 @@ export const swaggerPaths: OpenAPIV3.PathsObject = {
       },
     },
   },
-  "/api/auth/passwordRequest": {
+  "/api/auth/passwordRequestWithEmail": {
     post: {
-      summary: "Password Reset Request",
+      summary: "Password Reset Request With Email",
       tags: ["Password Reset"],
       requestBody: {
         required: true,
